@@ -12,10 +12,9 @@ if [ -f "$MITMPROXY_PATH/mitmproxy-ca.pem" ]; then
 else
   f="$MITMPROXY_PATH"
 fi
-usermod -o \
-    -u $(stat -c "%u" "$f") \
-    -g $(stat -c "%g" "$f") \
-    mitmproxy
+
+groupmod -o -g "$(stat -c "%g" "$f")" mitmproxy
+usermod  -o -u "$(stat -c "%u" "$f")" mitmproxy
 
 if [[ "$1" = "mitmdump" || "$1" = "mitmproxy" || "$1" = "mitmweb" ]]; then
   exec gosu mitmproxy "$@"
